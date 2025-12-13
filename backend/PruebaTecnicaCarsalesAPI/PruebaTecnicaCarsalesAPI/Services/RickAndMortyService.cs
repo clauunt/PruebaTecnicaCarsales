@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using PruebaTecnicaCarsalesAPI.Configuration;
@@ -38,6 +38,16 @@ namespace PruebaTecnicaCarsalesAPI.Services
 
             var response = await _httpClient.GetAsync($"character?{queryString}");
 
+            //si no encuentra registros devuelve lista vacía
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return new PagedResult<CharacterDto>
+                {
+                    Data = Enumerable.Empty<CharacterDto>(),
+                    Info = new PaginationInfo{ Count = 0, Pages = 0, CurrentPage = filterParams.Page, Next = null, Prev = null }
+                };
+            }
+
             //lanza error si falla al middleware
             response.EnsureSuccessStatusCode();
 
@@ -49,8 +59,8 @@ namespace PruebaTecnicaCarsalesAPI.Services
 
             var dataToDto = data.Results.ToDto();
 
-            //Data maneja resultados
-            //Info maneja propiedades de paginacion según Modelo
+            //Data contiene resultados
+            //Info maneja propiedades de paginación según Modelo
             var result = new PagedResult<CharacterDto>
             {
                 Data = dataToDto,
@@ -82,7 +92,7 @@ namespace PruebaTecnicaCarsalesAPI.Services
             if (data == null)
                 throw new InvalidOperationException($"Personaje no encontrado.");
 
-            var dataToDto = data.ToDto();
+            var dataToDto = data.SingleEpisodeToDto();
             return dataToDto;
         }
 
@@ -118,6 +128,15 @@ namespace PruebaTecnicaCarsalesAPI.Services
         {
             var queryString = filterParams.ToQueryString();
             var response = await _httpClient.GetAsync($"episode?{queryString}");
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return new PagedResult<EpisodesDto>
+                {
+                    Data = Enumerable.Empty<EpisodesDto>(),
+                    Info = new PaginationInfo{ Count = 0, Pages = 0, CurrentPage = filterParams.Page, Next = null, Prev = null }
+                };
+            }
             response.EnsureSuccessStatusCode();
 
             string content = await response.Content.ReadAsStringAsync();

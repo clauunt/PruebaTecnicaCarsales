@@ -10,17 +10,19 @@ import { ICardData } from '@shared/models/card-data.interface';
 import { FilterButton, FilterField } from '@shared/models/filters.interface';
 import { EpisodeDetailComponent } from '../episode-detail/episode-detail.component';
 import { LoadingComponent } from '@shared/components/loading/loading.component';
+import { NotFoundComponent } from '@shared/components/errors/not-found';
 
 @Component({
   selector: 'app-episode-list',
   standalone: true,
   imports: [
-    CommonModule, 
-    GenericCardComponent, 
-    GenericPaginationComponent, 
-    GenericFilterComponent, 
+    CommonModule,
+    GenericCardComponent,
+    GenericPaginationComponent,
+    GenericFilterComponent,
     EpisodeDetailComponent,
-    LoadingComponent
+    LoadingComponent,
+    NotFoundComponent
   ],
   templateUrl: 'episode-list.component.html',
   styleUrl: 'episode-list.component.scss'
@@ -54,9 +56,9 @@ export class EpisodeListComponent implements OnInit {
     this.modalOpen.set(true);
   }
 
-  closeDetail() { 
-    this.modalOpen.set(false);
+  closeDetail() {
     this.selectedEpisode.set(0);
+    this.modalOpen.set(false);
   }
 
   ngOnInit() {
@@ -70,9 +72,18 @@ export class EpisodeListComponent implements OnInit {
     this.loadEpisodes();
   }
 
+  onReset() {
+    this.currentPage.set(1);
+    this.pageSize.set(6);
+    this.filterReq = { page: this.currentPage(), pageSize: this.pageSize() };
+    this.loadEpisodes();
+  }
+
   loadEpisodes(filter?: EpisodeFilterReq) {
     this.loading.set(true);
     this.error.set(null);
+    this.totalPages.set(0);
+    this.episodes.set([]);
 
     if (filter)
       this.filterReq = filter;

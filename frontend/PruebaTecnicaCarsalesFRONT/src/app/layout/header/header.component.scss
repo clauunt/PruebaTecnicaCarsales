@@ -1,49 +1,52 @@
-:host { display: block; }
+
 
 .app-header {
-  background: #0f2e3c;
-  color: #fff;
+  display: flex;
+  align-items: center;
+  width: 100%;
 
-  .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
+  align-content: space-around;
 
-  .menu-btn {
-    background: transparent;
-    border: none;
-    color: #fff;
-    font-size: 1.4rem;
-    cursor: pointer;
-    display: none;
-  }
+  ul {
+    position: fixed;
+    top: 0;
+    width: 100%;
 
-  .nav ul {
-    display: flex;
-    gap: 1rem;
-    list-style: none;
+    list-style-type: none;
     margin: 0;
     padding: 0;
+    overflow: hidden;
+    background-color: #0f2e3c;
+    z-index: 3000;
 
-    a {
-      font-size: 15pt;
-      color: #fff;
-      text-decoration: none;
-      padding: 1rem 2rem;
-      border-radius: 4px;
-    }
+    li {
+      float: left;
 
-    a.active {
-      background: rgba(255,255,255,0.12);
+      a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 15px 15px;
+        text-decoration: none;
+        border: 1px solid #0f2e3c;
+      }
+      .a-item {
+        padding: 30px;
+      }
+
+      a.active {
+        background: rgba(255,255,255,0.12);
+        border: 1px solid #a9d109;
+
+      }
+
+      a:hover {
+        background-color: #6194ab;
+        border: 1px solid #a9d109;
+      }
+
     }
   }
 
-  .backdrop {
-    display: none;
-  }
 }
+

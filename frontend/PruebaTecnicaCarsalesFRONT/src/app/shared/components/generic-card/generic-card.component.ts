@@ -12,6 +12,7 @@ export class GenericCardComponent {
 
   @Input() data!: ICardData;
   @Output() select = new EventEmitter<number>();
+  @Input() selectable: boolean = true;
 
   onClick() {
     this.select.emit(this.data.id);

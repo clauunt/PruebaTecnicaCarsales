@@ -1,0 +1,53 @@
+/* Estilos simples para el detalle de personaje */
+.character-card {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 12px;
+
+  div{
+    width: 50%;
+  }
+
+  img {
+    display: block;
+    width: 250px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+
+  .name {
+    margin: 0 0 8px 0;
+    font-size: 23pt;
+    line-height: 1.1;
+  }
+
+
+  .label {
+    color: #374151;
+    font-weight: 600;
+    font-size: 13pt;
+  }
+
+  .value {
+    flex: 1 1 0;
+    color: #646464;
+    font-size: 13pt;
+    text-align: right;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    max-width: 100%;
+  }
+
+  .large-value{
+
+  }
+
+}
+
+.character-card > div:first-child {
+  flex: 0 0 150px;
+}

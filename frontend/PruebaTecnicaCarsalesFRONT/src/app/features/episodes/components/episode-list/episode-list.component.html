@@ -4,7 +4,7 @@
     <!-- app-error-display [message]="error()!" / -->
   }
 
-  <app-generic-filter [fields]="fields" [buttons]="buttons"></app-generic-filter>
+  <app-generic-filter [fields]="fields" [buttons]="buttons" (onReset)="onReset()"></app-generic-filter>
   <app-generic-pagination [page]="totalPages()" [currentPage]="currentPage()" (next)="onNext()" (prev)="onPrev()" (pageChange)="onPageChange($event)"/>
 
   @if (!loading() && episodes().length > 0) {
@@ -15,17 +15,18 @@
         }
       }
     </div>
-  } 
-  
-  @if(episodes().length == 0){
-    <p class="no-results">No se encontraron episodios</p>
   }
-  
+
+  @if(!loading() && episodes().length == 0){
+    <app-not-found [errorType]="'not-found'"></app-not-found>
+  }
+
   @if(loading()){
     <app-loading></app-loading>
   }
 
-
-  <app-episode-detail [open]="modalOpen()" [episodeId]="selectedEpisode()" (close)="closeDetail()"></app-episode-detail>
+  @defer {
+    <app-episode-detail [open]="modalOpen()" [episodeId]="selectedEpisode()" (close)="closeDetail()"></app-episode-detail>
+  }
 
 </div>

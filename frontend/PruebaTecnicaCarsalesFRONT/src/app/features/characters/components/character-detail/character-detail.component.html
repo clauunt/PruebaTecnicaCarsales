@@ -1,0 +1,38 @@
+@if(open){
+
+  @if(!loading() && character() == null){
+    <app-not-found [errorType]="'empty'"></app-not-found>
+  }
+
+  @if(loading()){
+    <app-loading></app-loading>
+  }
+
+  @if (!loading() && character()) {
+    <app-generic-modal [open]="open" (close)="closeModal()" title="Detalle Personaje">
+      <div class="character-card">
+
+        <div>
+          <img [src]="character()?.image" [alt]="character()?.name"/>
+        </div>
+
+        <div class="character-header">
+
+            <h2 class="name">{{ character()?.name }}</h2>
+
+            <p><span class="label">Especie : </span><span class="value">{{ character()?.species ?? '—' }}</span></p>
+            <p><span class="label">Género : </span><span class="value">{{ character()?.gender ?? '—' }}</span></p>
+            <p><span class="label">Estado : </span><span class="value">{{ character()?.status ?? '—' }}</span></p>
+            <p><span class="label">Origen : </span><span class="value">{{ character()?.origin ?? '—' }}</span></p>
+            <p><span class="label">Locación : </span><span class="value">{{ character()?.location ?? '—' }}</span></p>
+            <hr>
+            <span class="label">Episodios : </span><span class="value large-value">{{ transformListToString(character()?.episode) || '—' }}</span>
+
+        </div>
+
+      </div>
+    </app-generic-modal>
+
+  }
+
+}

@@ -1,5 +1,4 @@
 import { HttpParams } from "@angular/common/http";
-import { CharacterFilterReq, EpisodeFilterReq } from "../models";
 
 export class ParamsUtils {
 

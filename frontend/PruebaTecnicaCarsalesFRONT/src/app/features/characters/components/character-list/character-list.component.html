@@ -4,29 +4,29 @@
     <!-- app-error-display [message]="error()!" / -->
   }
 
-  <app-generic-filter [fields]="fields" [buttons]="buttons"></app-generic-filter>
+  <app-generic-filter [fields]="fields" [buttons]="buttons" (onReset)="onReset()"></app-generic-filter>
   <app-generic-pagination [page]="totalPages()" [currentPage]="currentPage()" (next)="onNext()" (prev)="onPrev()" (pageChange)="onPageChange($event)"/>
 
   @if (!loading() && characters().length > 0) {
     <div class="grid">
       @for (character of characters(); track character.id; let idx = $index) {
         @if(character){
-          <app-generic-card [data]="transformData(character)"></app-generic-card>
+          <app-generic-card [data]="transformData(character)" (select)="openDetail($event)"></app-generic-card>
         }
       }
     </div>
   }
 
-  @if(characters().length == 0){
-    <p class="no-results">No se encontraron personajes</p>
+  @if(!loading() && characters().length == 0){
+    <app-not-found [errorType]="'not-found'"></app-not-found>
   }
-  
+
   @if(loading()){
     <app-loading></app-loading>
   }
 
-  @if (!loading() && characters().length === 0) {
-    <p class="no-results">No se encontraron personajes</p>
+  @defer {
+    <app-character-detail [open]="modalOpen()" [characterId]="selectedCharacter()" (close)="closeDetail()"></app-character-detail>
   }
 
 </div>

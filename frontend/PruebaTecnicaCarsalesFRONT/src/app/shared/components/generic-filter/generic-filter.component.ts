@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FilterButton, FilterField } from '@shared/models/filters.interface';
@@ -14,14 +14,15 @@ export class GenericFilterComponent implements OnInit, OnChanges {
 
   @Input() fields: FilterField[] = [];
   @Input() buttons: FilterButton[] = [];
+  @Output() onReset = new EventEmitter<void>();
 
   form: FormGroup = new FormGroup({});
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.buildForm();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges) {
     if (changes['fields']) {
       this.buildForm();
     }
@@ -41,12 +42,13 @@ export class GenericFilterComponent implements OnInit, OnChanges {
     return this.form.value;
   }
 
-  onActionBtn(btn: FilterButton): void {
+  onActionBtn(btn: FilterButton) {
     btn.action?.(this.form);
   }
 
-  resetForm(): void {
+  resetForm() {
     this.buildForm();
+    this.onReset.emit();
   }
 
 }

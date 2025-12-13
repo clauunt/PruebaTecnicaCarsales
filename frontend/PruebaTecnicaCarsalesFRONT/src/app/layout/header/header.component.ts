@@ -13,15 +13,16 @@ export class HeaderComponent {
   menuOpen = signal(true);
 
   optionsDir = [
+    { label: 'Inicio', path: '/home' },
     { label: 'Personajes', path: '/characters' },
     { label: 'Episodios', path: '/episodes' }
   ];
 
-  toggle(): void {
+  toggle() {
     this.menuOpen.update(v => !v);
   }
 
-  close(): void {
+  close() {
     this.menuOpen.set(false);
   }
 }

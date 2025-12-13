@@ -10,16 +10,20 @@ import { FilterButton, FilterField } from '@shared/models/filters.interface';
 import { OptionsGender, OptionsStatus } from '../../../../constants/options';
 import { FormGroup } from '@angular/forms';
 import { LoadingComponent } from '@shared/components/loading/loading.component';
+import { NotFoundComponent } from '@shared/components/errors/not-found';
+import { CharacterDetailComponent } from '../character-detail/character-detail.component';
 
 @Component({
   selector: 'app-character-list',
   standalone: true,
   imports: [
-    CommonModule, 
-    GenericCardComponent, 
-    GenericPaginationComponent, 
+    CommonModule,
+    GenericCardComponent,
+    GenericPaginationComponent,
     GenericFilterComponent,
-    LoadingComponent
+    LoadingComponent,
+    NotFoundComponent,
+    CharacterDetailComponent
   ],
   templateUrl: 'character-list.component.html',
   styleUrls: ['character-list.component.scss']
@@ -48,6 +52,19 @@ export class CharacterListComponent implements OnInit {
     { label: 'Buscar', action: (form?: FormGroup) => this.applyFilter(form) },
   ];
 
+  modalOpen = signal(false);
+  selectedCharacter = signal<number>(0);
+
+  openDetail(item: number) {
+    this.selectedCharacter.set(item);
+    this.modalOpen.set(true);
+  }
+
+  closeDetail() {
+    this.selectedCharacter.set(0);
+    this.modalOpen.set(false);
+  }
+
   ngOnInit() {
     this.loadCharacters();
   }
@@ -59,9 +76,18 @@ export class CharacterListComponent implements OnInit {
     this.loadCharacters();
   }
 
+  onReset() {
+    this.currentPage.set(1);
+    this.pageSize.set(6);
+    this.filterReq = { page: this.currentPage(), pageSize: this.pageSize() };
+    this.loadCharacters();
+  }
+
   loadCharacters(filter?: CharacterFilterReq) {
     this.loading.set(true);
     this.error.set(null);
+    this.totalPages.set(0);
+    this.characters.set([]);
 
     if (filter)
       this.filterReq = filter;
@@ -81,6 +107,7 @@ export class CharacterListComponent implements OnInit {
 
   transformData(character: Character){
     let converted: ICardData = {
+      id: character.id,
       imageUrl: character.image,
       title: character.name,
       detail: `${character.species} - ${character.gender}`,
