@@ -1,0 +1,13 @@
+<ul class="pagination" role="navigation" aria-label="Paginación">
+  <li>
+    <button class="basic-btn" (click)="onPrev()" [disabled]="currentPage <= 1" aria-label="Anterior">&laquo;</button>
+  </li>
+
+  <li *ngFor="let p of pagesList">
+    <button class="basic-btn" [class.active]="p === currentPage" (click)="goTo(p)"> {{ p }}</button>
+  </li>
+
+  <li>
+    <button class="basic-btn" (click)="onNext()" [disabled]="page ? currentPage >= page : false" aria-label="Siguiente">&raquo;</button>
+  </li>
+</ul>

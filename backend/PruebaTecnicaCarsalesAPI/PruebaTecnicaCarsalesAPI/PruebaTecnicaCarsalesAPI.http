@@ -1,0 +1,6 @@
+@PruebaTecnicaCarsalesAPI_HostAddress = http://localhost:5001
+
+GET {{PruebaTecnicaCarsalesAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

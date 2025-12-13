@@ -1,0 +1,31 @@
+@if(loading()){
+  <app-loading></app-loading>
+}
+
+@if (!loading() && episode()) {
+  <app-generic-modal [open]="open" (close)="closeModal()" title="Detalle Episodio">
+    <div>
+      <h4>Nombre: {{ episode()?.name }}</h4>
+      <p>Código Episodio: {{ episode()?.episode }}</p>
+    </div>
+
+    @if (!loading() && episode() && caharacterList().length > 0) {
+      <h4>Personajes que aparecen en el episodio :</h4>
+
+      <div class="grid-custom">
+        @for (character of caharacterList(); track character.id; let idx = $index) {
+          @if(character){
+            <app-generic-card [data]="transformData(character)"></app-generic-card>
+          }
+        }
+      </div>
+    }
+    
+  </app-generic-modal>
+  
+}
+
+@if (!loading() && episode() === null) {
+  <p class="no-results">No se encontraron episodios</p>
+}
+

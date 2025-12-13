@@ -1,0 +1,31 @@
+<div class="list-data">
+
+  @if (error()) {
+    <!-- app-error-display [message]="error()!" / -->
+  }
+
+  <app-generic-filter [fields]="fields" [buttons]="buttons"></app-generic-filter>
+  <app-generic-pagination [page]="totalPages()" [currentPage]="currentPage()" (next)="onNext()" (prev)="onPrev()" (pageChange)="onPageChange($event)"/>
+
+  @if (!loading() && episodes().length > 0) {
+    <div class="grid">
+      @for (episode of episodes(); track episode.id; let idx = $index) {
+        @if(episode){
+          <app-generic-card [data]="transformData(episode)" (select)="openDetail($event)"></app-generic-card>
+        }
+      }
+    </div>
+  } 
+  
+  @if(episodes().length == 0){
+    <p class="no-results">No se encontraron episodios</p>
+  }
+  
+  @if(loading()){
+    <app-loading></app-loading>
+  }
+
+
+  <app-episode-detail [open]="modalOpen()" [episodeId]="selectedEpisode()" (close)="closeDetail()"></app-episode-detail>
+
+</div>

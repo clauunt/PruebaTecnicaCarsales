@@ -1,0 +1,24 @@
+<div class="card" (click)="onClick()">
+
+  @if(data.imageUrl){
+    <div class="imagen-container">
+      <img class="img" [src]="data.imageUrl" [alt]="data.title"/>
+    </div>
+  }
+
+  <div class="body">
+
+    <h3 class="title">
+      @if(data.labelTitle){ <span style="font-weight: 700;">{{ data.labelTitle }} : </span> }
+      {{ data.title }}
+    </h3>
+
+    <p class="detail">
+      @if(data.labelDetail){ <span style="font-weight: 700;">{{ data.labelDetail }} : </span> }
+      <span style="font-weight: 500;">{{ data.detail }}</span>
+    </p>
+
+    <span class="extra">{{ data.extraInfo }}</span>
+
+  </div>
+</div>

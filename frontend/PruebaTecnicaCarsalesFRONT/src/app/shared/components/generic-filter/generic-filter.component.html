@@ -1,0 +1,48 @@
+
+  <div class="filter-card">
+
+    <div class="fields">
+      @for (field of fields; track field.name) {
+        <div class="field">
+          <form [formGroup]="form">
+            @switch (field.type) {
+              @case ('text') {
+                <input type="text" [formControlName]="field.name" [placeholder]="field.placeholder || field.title " />
+              }
+              @case ('number') {
+                <input type="number" [formControlName]="field.name"  [placeholder]="field.placeholder || field.title" />
+              }
+              @case ('select') {
+                <select [formControlName]="field.name">
+                  @for (option of field.options; track option.value) {
+                    <option [value]="option.value">{{ option.label }}</option>
+                  }
+                </select>
+              }
+              @case ('date') {
+                <input type="date" [formControlName]="field.name" />
+              }
+              @default {
+                <label>Tipo de campo no soportado.</label>
+              }
+            }
+          </form>
+        </div>
+      }
+
+      @empty {
+        <label>No cuenta con filtros.</label>
+      }
+    </div>
+
+    @if(buttons && buttons.length > 0) {
+      <div class="actions">
+        @for (btn of buttons; track btn.label) {
+          <button type="button" class="basic-btn" (click)="onActionBtn(btn)">{{ btn.label }}</button>
+        }
+        <button type="button" class="basic-btn" (click)="resetForm()">Limpiar</button>
+      </div>
+    }
+
+  </div>
+

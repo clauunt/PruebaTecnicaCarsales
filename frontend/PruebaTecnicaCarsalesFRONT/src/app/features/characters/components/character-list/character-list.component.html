@@ -1,0 +1,32 @@
+<div class="list-data">
+
+  @if (error()) {
+    <!-- app-error-display [message]="error()!" / -->
+  }
+
+  <app-generic-filter [fields]="fields" [buttons]="buttons"></app-generic-filter>
+  <app-generic-pagination [page]="totalPages()" [currentPage]="currentPage()" (next)="onNext()" (prev)="onPrev()" (pageChange)="onPageChange($event)"/>
+
+  @if (!loading() && characters().length > 0) {
+    <div class="grid">
+      @for (character of characters(); track character.id; let idx = $index) {
+        @if(character){
+          <app-generic-card [data]="transformData(character)"></app-generic-card>
+        }
+      }
+    </div>
+  }
+
+  @if(characters().length == 0){
+    <p class="no-results">No se encontraron personajes</p>
+  }
+  
+  @if(loading()){
+    <app-loading></app-loading>
+  }
+
+  @if (!loading() && characters().length === 0) {
+    <p class="no-results">No se encontraron personajes</p>
+  }
+
+</div>

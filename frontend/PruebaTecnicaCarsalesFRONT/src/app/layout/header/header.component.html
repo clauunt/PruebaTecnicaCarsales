@@ -1,0 +1,24 @@
+<header class="app-header">
+
+  <div class="container">
+
+    <a routerLink="/">
+      <img class="logo" src="./assets/images/logo.webp" alt="Carsales" />
+    </a>
+
+    <nav class="nav" [class.open]="menuOpen()" role="navigation">
+      <ul>
+        @for (option of optionsDir; track option.path) {
+          <li>
+            <a [routerLink]="option.path" routerLinkActive="active" (click)="close()">{{ option.label }}</a>
+          </li>
+        }
+      </ul>
+    </nav>
+  </div>
+
+  @if (menuOpen()) {
+    <div class="backdrop" (click)="close()" aria-hidden="true"></div>
+  }
+
+</header>
