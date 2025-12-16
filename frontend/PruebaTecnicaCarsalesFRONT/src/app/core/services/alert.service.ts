@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { HttpStatusCode } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 @Injectable({ 
   providedIn: 'root' 
@@ -10,7 +10,7 @@ export class AlertService {
   code = signal<HttpStatusCode | 0>(HttpStatusCode.InternalServerError);
   visible = signal<boolean>(false);
 
-  private timeoutId: any = null;
+  private timeoutId: ReturnType<typeof setTimeout> | null = null;
 
   show(msg: string, code: HttpStatusCode | 0 = HttpStatusCode.InternalServerError, delay = 5000) {
     this.message.set(msg);
@@ -20,7 +20,7 @@ export class AlertService {
     this.timeoutId = setTimeout(() => { this.hide(); this.timeoutId = null; }, delay);
   }
 
-  showError(err: any, delay = 5000) {
+  showError(err: HttpErrorResponse, delay = 5000) {
     let msg = 'Error inesperado.';
     let details = '';
     let code: HttpStatusCode | 0 = HttpStatusCode.InternalServerError;
