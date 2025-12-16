@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from "@angular/common/http";
+
 export interface ApiResponse<T> {
   info: PaginationInfo;
   data: Array<T>;
@@ -18,9 +20,13 @@ export interface PaginationFilter {
   pageSize?: number;
 }
 
-export interface ApiError {
+export interface ApiErrorBody {
   statusCode: number;
   message: string;
   details?: string;
   timestamp?: Date;
+}
+
+export interface ApiErrorResponse extends HttpErrorResponse{
+  error: ApiErrorBody;
 }

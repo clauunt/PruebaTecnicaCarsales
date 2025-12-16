@@ -1,11 +1,10 @@
 <div class="list-data">
 
-  @if (error()) {
-    <!-- app-error-display [message]="error()!" / -->
-  }
-
   <app-generic-filter [fields]="fields" [buttons]="buttons" (onReset)="onReset()"></app-generic-filter>
-  <app-generic-pagination [page]="totalPages()" [currentPage]="currentPage()" (next)="onNext()" (prev)="onPrev()" (pageChange)="onPageChange($event)"/>
+  <app-generic-pagination [page]="totalPages()" 
+    [currentPage]="currentPage()" (next)="onNext()" (prev)="onPrev()" [pageSize]="pageSize()" 
+    (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)" >
+  </app-generic-pagination>
 
   @if (!loading() && episodes().length > 0) {
     <div class="grid">

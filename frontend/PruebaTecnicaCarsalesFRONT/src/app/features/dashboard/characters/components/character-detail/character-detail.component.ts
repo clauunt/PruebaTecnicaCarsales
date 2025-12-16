@@ -1,5 +1,7 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, signal, SimpleChanges } from '@angular/core';
 import { Character } from '@core/models';
+import { AlertService } from '@core/services/alert.service';
 import { CharacterService } from '@core/services/characters.service';
 import { FormatUtils } from '@core/utils/format.utils';
 import { NotFoundComponent } from '@shared/components/errors/not-found';
@@ -19,11 +21,13 @@ export class CharacterDetailComponent implements OnChanges, OnInit {
   @Output() close = new EventEmitter<void>();
 
   private readonly characterService = inject(CharacterService);
+  private readonly alertService = inject(AlertService);
+  
   character = signal<Character | null>(null);
   loading = signal<boolean>(false);
-  error = signal<string | null>(null);
 
   ngOnInit(): void {
+    this.alertService.hide();
     this.character.set(null);
   }
 
@@ -39,16 +43,16 @@ export class CharacterDetailComponent implements OnChanges, OnInit {
 
   private async loadCharacter(id: number) {
     this.loading.set(true);
-    this.error.set(null);
 
     this.characterService.getById(id).subscribe({
       next: (response) => {
         this.character.set(response ?? null);
         this.loading.set(false);
       },
-      error: (error) => {
+      error: (err) => {
         this.character.set(null);
-        this.error.set(error.message || 'Ocurrió un error al cargar el personaje.');
+        this.alertService.showError(err);
+        this.loading.set(false);
       }
     });
   }

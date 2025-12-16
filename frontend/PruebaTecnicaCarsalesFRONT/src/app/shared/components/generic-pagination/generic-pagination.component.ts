@@ -11,22 +11,23 @@ import { CommonModule } from '@angular/common';
 export class GenericPaginationComponent {
   @Input() page?: number;
   @Input() currentPage = 1;
+  @Input() pageSize = 6;
+  @Input() pageSizeOptions: number[] = [6, 10, 20, 50];
 
   @Output() next = new EventEmitter<void>();
   @Output() prev = new EventEmitter<void>();
   @Output() pageChange = new EventEmitter<number>();
+  @Output() pageSizeChange = new EventEmitter<number>();
 
   onNext() {
     if (!this.page || this.currentPage < this.page) {
       this.next.emit();
-      this.pageChange.emit(this.currentPage + 1);
     }
   }
 
   onPrev() {
     if (this.currentPage > 1) {
       this.prev.emit();
-      this.pageChange.emit(this.currentPage - 1);
     }
   }
 
@@ -53,4 +54,10 @@ export class GenericPaginationComponent {
     for (let i = start; i <= end; i++) pages.push(i);
     return pages;
   }
+    
+  onPageSizeChange(event: Event) {
+    const value = +(event.target as HTMLSelectElement).value;
+    this.pageSizeChange.emit(value);
+  }
+
 }

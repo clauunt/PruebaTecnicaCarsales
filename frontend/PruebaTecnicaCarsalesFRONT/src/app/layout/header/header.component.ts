@@ -13,9 +13,9 @@ export class HeaderComponent {
   menuOpen = signal(true);
 
   optionsDir = [
-    { label: 'Inicio', path: '/home' },
-    { label: 'Personajes', path: '/characters' },
-    { label: 'Episodios', path: '/episodes' }
+    { label: 'Inicio', path: 'dashboard/home' },
+    { label: 'Personajes', path: 'dashboard/characters' },
+    { label: 'Episodios', path: 'dashboard/episodes' }
   ];
 
   toggle() {

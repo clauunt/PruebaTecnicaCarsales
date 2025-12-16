@@ -1,4 +1,6 @@
-<ul class="pagination" role="navigation" aria-label="Paginación">
+<nav aria-label="Paginación">
+<ul class="pagination">
+
   <li>
     <button class="basic-btn" (click)="onPrev()" [disabled]="(page == 0 || (currentPage <= 1))" aria-label="Anterior">&laquo;</button>
   </li>
@@ -10,4 +12,13 @@
   <li>
     <button class="basic-btn" (click)="onNext()" [disabled]="(page == 0 || (page ? currentPage >= page : false))" aria-label="Siguiente">&raquo;</button>
   </li>
+
+  
+  <li class="page-size-selector">
+    <select id="pageSize" class="basic-select" [value]="pageSize" (change)="onPageSizeChange($event)">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+    </select>
+  </li>
+
 </ul>
+</nav>

@@ -11,6 +11,8 @@ import { FilterButton, FilterField } from '@shared/models/filters.interface';
 import { EpisodeDetailComponent } from '../episode-detail/episode-detail.component';
 import { LoadingComponent } from '@shared/components/loading/loading.component';
 import { NotFoundComponent } from '@shared/components/errors/not-found';
+import { AlertService } from '@core/services/alert.service';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-episode-list',
@@ -30,6 +32,8 @@ import { NotFoundComponent } from '@shared/components/errors/not-found';
 export class EpisodeListComponent implements OnInit {
 
   private readonly episodeService = inject(EpisodeService);
+  private readonly alertService = inject(AlertService);
+  
   episodes = signal<Episode[]>([]);
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
@@ -62,6 +66,7 @@ export class EpisodeListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.alertService.hide();
     this.loadEpisodes();
   }
 
@@ -95,7 +100,7 @@ export class EpisodeListComponent implements OnInit {
         this.loading.set(false);
       },
       error: (err) => {
-        this.error.set('Error al cargar los episodios');
+        this.alertService.showError(err);
         this.loading.set(false);
       }
     });
@@ -106,7 +111,6 @@ export class EpisodeListComponent implements OnInit {
       id: episode.id,
       imageUrl: `./assets/images/film.svg`,
       title: episode.name,
-      //labelDetail: `Fecha de emisión`,
       detail: `${episode.airDate}`,
       extraInfo: episode.episode,
     }
@@ -131,4 +135,9 @@ export class EpisodeListComponent implements OnInit {
     this.loadEpisodes();
   }
 
+  onPageSizeChange(newSize: number) {
+    this.pageSize.set(newSize);
+    this.currentPage.set(1);
+    this.loadEpisodes();
+  }
 }

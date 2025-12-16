@@ -1,5 +1,7 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges, signal, OnInit } from '@angular/core';
 import { Character, Episode } from '@core/models';
+import { AlertService } from '@core/services/alert.service';
 import { EpisodeService } from '@core/services/episodes.service';
 import { NotFoundComponent } from '@shared/components/errors/not-found';
 import { GenericCardComponent } from '@shared/components/generic-card/generic-card.component';
@@ -21,13 +23,14 @@ export class EpisodeDetailComponent implements OnChanges, OnInit{
   @Output() close = new EventEmitter<void>();
 
   private readonly episodeService = inject(EpisodeService);
+  private readonly alertService = inject(AlertService);
+  
   episode = signal<Episode | null>(null);
   caharacterList = signal<Character[]>([]);
-
   loading = signal<boolean>(false);
-  error = signal<string | null>(null);
 
   ngOnInit(): void {
+    this.alertService.hide();
     this.episode.set(null);
   }
 
@@ -43,7 +46,6 @@ export class EpisodeDetailComponent implements OnChanges, OnInit{
 
   private async loadEpisode(id: number) {
     this.loading.set(true);
-    this.error.set(null);
 
     this.episodeService.getById(id).subscribe({
       next: (response) => {
@@ -51,9 +53,10 @@ export class EpisodeDetailComponent implements OnChanges, OnInit{
         this.caharacterList.set(response.charactersList ?? []);
         this.loading.set(false);
       },
-      error: (error) => {
+      error: (err) => {
         this.episode.set(null);
-        this.error.set(error.message || 'Ocurrió un error al cargar el episodio.');
+        this.alertService.showError(err);
+        this.loading.set(false);
       }
     });
   }

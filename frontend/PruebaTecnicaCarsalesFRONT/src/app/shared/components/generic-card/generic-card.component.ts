@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Character, Episode } from '@core/models';
 import { ICardData } from '@shared/models/card-data.interface';
 
 @Component({

@@ -9,3 +9,7 @@ export type {
   CharacterPage,
   CharacterFilterReq,
 } from "./characters.interface";
+
+export type {
+  ApiErrorResponse,
+} from "./apiResponse.interface";

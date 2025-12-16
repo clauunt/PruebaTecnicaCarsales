@@ -16,7 +16,7 @@ import { Component, Input } from '@angular/core';
   ]
 })
 export class NotFoundComponent {
-  @Input() errorType: 'not-found' | 'empty' | 'server' = 'not-found';
+  @Input() errorType: 'not-found' | 'empty' = 'not-found';
   @Input() customMessage?: string;
 
   get message(): string {
@@ -27,8 +27,6 @@ export class NotFoundComponent {
     switch (this.errorType) {
       case 'empty':
         return 'No hay elementos para mostrar.';
-      case 'server':
-        return 'Ocurrió un error en el servidor. Intente nuevamente más tarde.';
       case 'not-found':
       default:
         return 'No se encontraron registros.';

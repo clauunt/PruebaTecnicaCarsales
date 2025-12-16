@@ -1,17 +1,19 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CharacterService } from '@core/services/characters.service';
-import { Character, CharacterFilterReq } from '@core/models';
+import { ApiErrorResponse, Character, CharacterFilterReq } from '@core/models';
 import { GenericCardComponent } from '@shared/components/generic-card/generic-card.component';
 import { ICardData } from '@shared/models/card-data.interface';
 import { GenericPaginationComponent } from '@shared/components/generic-pagination/generic-pagination.component';
 import { GenericFilterComponent } from '@shared/components/generic-filter/generic-filter.component';
 import { FilterButton, FilterField } from '@shared/models/filters.interface';
-import { OptionsGender, OptionsStatus } from '../../../../constants/options';
+import { OptionsGender, OptionsStatus } from '../../../../../constants/options';
 import { FormGroup } from '@angular/forms';
 import { LoadingComponent } from '@shared/components/loading/loading.component';
 import { NotFoundComponent } from '@shared/components/errors/not-found';
 import { CharacterDetailComponent } from '../character-detail/character-detail.component';
+import { HttpStatusCode } from '@angular/common/http';
+import { AlertService } from '@core/services/alert.service';
 
 @Component({
   selector: 'app-character-list',
@@ -31,6 +33,8 @@ import { CharacterDetailComponent } from '../character-detail/character-detail.c
 export class CharacterListComponent implements OnInit {
 
   private readonly characterService = inject(CharacterService);
+  private readonly alertService = inject(AlertService);
+
   characters = signal<Character[]>([]);
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
@@ -66,6 +70,7 @@ export class CharacterListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.alertService.hide();
     this.loadCharacters();
   }
 
@@ -98,8 +103,8 @@ export class CharacterListComponent implements OnInit {
         this.characters.set(response.data);
         this.loading.set(false);
       },
-      error: (err) => {
-        this.error.set('Error al cargar los personajes');
+      error: (err: ApiErrorResponse) => {
+        this.alertService.showError(err);
         this.loading.set(false);
       }
     });
@@ -132,6 +137,12 @@ export class CharacterListComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage.set(page);
+    this.loadCharacters();
+  }
+
+  onPageSizeChange(newSize: number) {
+    this.pageSize.set(newSize);
+    this.currentPage.set(1);
     this.loadCharacters();
   }
 }

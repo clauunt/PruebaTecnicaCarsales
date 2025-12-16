@@ -1,4 +1,3 @@
-import { ExecOptionsWithStringEncoding } from "child_process";
 import { ApiResponse, PaginationFilter } from "./apiResponse.interface";
 
 export interface Character {

@@ -1,0 +1,13 @@
+<div>
+  <app-header></app-header>
+
+
+  <main class="app-main">
+    @if(alertService.visible()){
+      <app-alert-display [code]="alertService.code()" [customMessage]="alertService.message()"></app-alert-display>
+    }
+
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

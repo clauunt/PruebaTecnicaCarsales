@@ -103,3 +103,46 @@ body {
   outline: none;
   box-shadow: 0 0 0 4px rgba(169,209,9,0.12);
 }
+
+
+.basic-select {
+  border: 1px solid rgba(17,24,39,0.12);
+  background: white;
+  color: #111827;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 120ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.basic-select:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: #a9d109;
+  box-shadow: 0 6px 18px rgba(169,209,9,0.06);
+}
+
+.basic-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  border-color: rgba(17,24,39,0.06);
+}
+
+.basic-select.active {
+  background: #0f2e3c;
+  border-color: #0f2e3c;
+  color: white;
+  transform: none;
+  box-shadow: 0 8px 22px rgba(169,209,9,0.14);
+}
+
+.basic-select.active:hover {
+  transform: none;
+  box-shadow: 0 10px 26px rgba(169,209,9,0.16);
+}
+
+.basic-select.active:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(169,209,9,0.12);
+}
