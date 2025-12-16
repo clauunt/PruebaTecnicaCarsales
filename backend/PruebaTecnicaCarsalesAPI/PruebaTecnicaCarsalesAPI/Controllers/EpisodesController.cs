@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using PruebaTecnicaCarsalesAPI.Dtos;
 using PruebaTecnicaCarsalesAPI.Interfaces;
 using PruebaTecnicaCarsalesAPI.Models.Errors;
@@ -40,7 +40,7 @@ namespace PruebaTecnicaCarsalesAPI.Controllers
             }
 
             if (filters.Page < 1)
-                return BadRequest(new ErrorResponse { StatusCode = 400, Message = "El número de la página debe ser mayor o igual a 1" });
+                return BadRequest(new ErrorResponse { StatusCode = 400, Message = "Solicitud Incorrecta.", Details = "El número de la página debe ser mayor o igual a 1" });
 
             _logger.LogInformation(
                 "Obtener Episodio - Page: {Page}, Name: {Name}, Episode: {Episode}", 
@@ -60,7 +60,7 @@ namespace PruebaTecnicaCarsalesAPI.Controllers
         public async Task<ActionResult<EpisodesDto>> GetById(int id)
         {
             if (id <= 0)
-                return BadRequest(new ErrorResponse { StatusCode = 400, Message = "El ID debe ser un número positivo" });
+                return BadRequest(new ErrorResponse { StatusCode = 400, Message = "Solicitud Incorrecta.", Details = "El ID debe ser un número positivo" });
 
             _logger.LogInformation("Obteniendo episodio con ID: {Id}", id);
 

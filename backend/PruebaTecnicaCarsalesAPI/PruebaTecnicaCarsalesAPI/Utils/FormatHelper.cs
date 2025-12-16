@@ -1,4 +1,4 @@
-﻿namespace PruebaTecnicaCarsalesAPI.Utils
+namespace PruebaTecnicaCarsalesAPI.Utils
 {
     public static class FormatHelper
     {
@@ -16,7 +16,7 @@
 
         public static List<string> ExtractIdList(List<string>? urls)
         {
-            if (urls == null && urls.Count == 0)
+            if (urls is null || urls.Count == 0)
                 return new List<string>();
 
             List<string> convertedList = new List<string>();

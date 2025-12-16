@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using PruebaTecnicaCarsalesAPI.Dtos;
 using PruebaTecnicaCarsalesAPI.Interfaces;
 using PruebaTecnicaCarsalesAPI.Models.Errors;
@@ -40,7 +40,7 @@ namespace PruebaTecnicaCarsalesAPI.Controllers
             }
 
             if (filters.Page < 1)
-                return BadRequest(new ErrorResponse{ StatusCode = 400, Message = "El número de la página debe ser mayor o igual a 1" });
+                return BadRequest(new ErrorResponse{ StatusCode = 400, Message = "Solicitud Incorrecta.", Details = "El número de la página debe ser mayor o igual a 1" });
 
             _logger.LogInformation(
                 "Obtener Personajes - Page: {Page}, Name: {Name}, Status: {Status}, Species: {Species}, Type: {Type}, Gender: {Gender}", 
@@ -60,7 +60,7 @@ namespace PruebaTecnicaCarsalesAPI.Controllers
         public async Task<ActionResult<CharacterDto>> GetById(int id)
         {
             if (id <= 0)
-                return BadRequest(new ErrorResponse{ StatusCode = 400, Message = "El ID debe ser un número positivo" });
+                return BadRequest(new ErrorResponse{ StatusCode = 400, Message = "Solicitud Incorrecta", Details = "El ID debe ser un número positivo." });
 
             _logger.LogInformation("Obteniendo personaje con ID: {Id}", id);
 

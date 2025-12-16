@@ -11,7 +11,7 @@ namespace PruebaTecnicaCarsalesAPI.Models.Filters
         public string? Gender { get; set; }
         public string ToQueryString()
         {
-            var queryParams = new List<string> { $"page={Page}&count={PageSize}" };
+            var queryParams = new List<string> { $"page={Page}&limit={PageSize}" };
 
             if (!string.IsNullOrWhiteSpace(Name)) queryParams.Add($"name={Uri.EscapeDataString(Name)}");
             if (!string.IsNullOrWhiteSpace(Status)) queryParams.Add($"status={Uri.EscapeDataString(Status)}");
